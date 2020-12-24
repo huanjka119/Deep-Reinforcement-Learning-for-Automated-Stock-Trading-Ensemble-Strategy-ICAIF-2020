@@ -5,7 +5,7 @@ import time
 import gym
 
 # RL models from stable-baselines
-from stable_baselines import GAIL, SAC
+from stable_baselines import gail, SAC
 from stable_baselines import ACER
 from stable_baselines import PPO2
 from stable_baselines import A2C

@@ -30,20 +30,21 @@ class StockEnvTrade(gym.Env):
                  ,initial=True, previous_state=[], model_name='', iteration=''):
         #super(StockEnv, self).__init__()
         #money = 10 , scope = 1
-        self.day = day
+        self.day = day #步数
         self.df = df
-        self.initial = initial
-        self.previous_state = previous_state
+        self.initial = initial #True
+        self.previous_state = previous_state #默认为[]
         # action_space normalization and shape is STOCK_DIM
-        self.action_space = spaces.Box(low = -1, high = 1,shape = (STOCK_DIM,)) 
+        self.action_space = spaces.Box(low = -1, high = 1,shape = (STOCK_DIM,)) #[是否买入股票池中的股票]
         # Shape = 181: [Current Balance]+[prices 1-30]+[owned shares 1-30] 
         # +[macd 1-30]+ [rsi 1-30] + [cci 1-30] + [adx 1-30]
-        self.observation_space = spaces.Box(low=0, high=np.inf, shape = (181,))
+        self.observation_space = spaces.Box(low=0, high=np.inf, shape = (181,))#【当前balance+30个股票*6个参数】
         # load data from a pandas dataframe
-        self.data = self.df.loc[self.day,:]
-        self.terminal = False     
-        self.turbulence_threshold = turbulence_threshold
+        self.data = self.df.loc[self.day,:]#第x行数据,为object
+        self.terminal = False     #未结束
+        self.turbulence_threshold = turbulence_threshold #湍流阈值？？？
         # initalize state
+        # .tolist 将矩阵、数列等变为列表
         self.state = [INITIAL_ACCOUNT_BALANCE] + \
                       self.data.adjcp.values.tolist() + \
                       [0]*STOCK_DIM + \
